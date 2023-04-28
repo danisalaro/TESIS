@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Tabla editable con exportación CSV</title>
+</head>
+<body>
+	<h1>Tabla editable con exportación CSV</h1>
+	<p>Haga clic en cualquier celda de la tabla para editar su contenido. Luego, haga clic en "Exportar CSV" para descargar los datos en formato CSV.</p>
+	<table id="miTabla" contenteditable>
+		<thead>
+			<tr>
+				<th>Nombre</th>
+				<th>Apellido</th>
+				<th>Edad</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td contenteditable="true">Juan</td>
+				<td contenteditable="true">Pérez</td>
+				<td contenteditable="true">30</td>
+			</tr>
+			<tr>
+				<td contenteditable="true">María</td>
+				<td contenteditable="true">González</td>
+				<td contenteditable="true">25</td>
+			</tr>
+			<tr>
+				<td contenteditable="true">Pedro</td>
+				<td contenteditable="true">Rodríguez</td>
+				<td contenteditable="true">40</td>
+			</tr>
+		</tbody>
+	</table>
+	<br>
+	<button onclick="exportarCSV()">Exportar CSV</button>
+
+	<script>
+		// Función para exportar los datos de la tabla en formato CSV
+		function exportarCSV() {
+			// Obtenemos los datos de la tabla
+			var tabla = document.getElementById("miTabla");
+			var filas = tabla.rows;
+			var csv = [];
+
+			// Recorremos las filas de la tabla
+			for (var i = 0; i < filas.length; i++) {
+				var fila = [];
+				var celdas = filas[i].cells;
+
+				// Recorremos las celdas de la fila
+				for (var j = 0; j < celdas.length; j++) {
+					fila.push(celdas[j].innerText);
+				}
+
+				// Agregamos la fila al array de CSV
+				csv.push(fila.join(","));
+			}
+
+			// Generamos el archivo CSV y lo descargamos
+			var enlace = document.createElement("a");
+			enlace.setAttribute("href", "data:text/csv;charset=utf-8," + encodeURIComponent(csv.join("\n")));
+			enlace.setAttribute("download", "datos.csv");
+			document.body.appendChild(enlace);
+			enlace.click();
+			document.body.removeChild(enlace);
+		}
+	</script>
+</body>
+</html>
